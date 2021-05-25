@@ -10,6 +10,9 @@ func Read(r io.Reader) (msg []byte, err error) {
 
 	size, body, err := getSize(r)
 	if err != nil {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
 		return
 	}
 
@@ -63,7 +66,6 @@ func getSize(reader io.Reader) (size uint64, body byte, err error) {
 	head := make([]byte, 2)
 
 	var n int
-
 	n, err = reader.Read(head)
 	if n == 1 {
 		if err != nil {
@@ -97,9 +99,6 @@ func getSize(reader io.Reader) (size uint64, body byte, err error) {
 		c := []byte{0}
 		n, err = reader.Read(c)
 		if err != nil {
-			if err == io.EOF {
-				err = io.ErrUnexpectedEOF
-			}
 			return
 		}
 		head = append(head, c[0])
