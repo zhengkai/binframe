@@ -8,6 +8,11 @@ import (
 // Write message
 func Write(w io.Writer, msg []byte) (err error) {
 
+	if uint64(len(msg)) > SizeThreshold {
+		err = ErrOversized
+		return
+	}
+
 	buf := make([]byte, binary.MaxVarintLen64)
 
 	n := binary.PutUvarint(buf, uint64(len(msg)))

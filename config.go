@@ -1,4 +1,4 @@
 package binframe
 
 // SizeThreshold max size of message
-const SizeThreshold uint64 = 2 << 20
+var SizeThreshold uint64 = 8 << 20

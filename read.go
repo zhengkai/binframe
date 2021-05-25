@@ -15,6 +15,10 @@ func Read(r io.Reader) (msg []byte, err error) {
 		}
 		return
 	}
+	if size > SizeThreshold {
+		err = ErrOversized
+		return
+	}
 
 	if size == 1 {
 		msg = []byte{body}
