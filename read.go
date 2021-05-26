@@ -10,7 +10,7 @@ func Read(r io.Reader) (msg []byte, err error) {
 
 	size, body, err := getSize(r)
 	if err != nil {
-		if err == io.EOF {
+		if err == io.EOF && size != 0 {
 			err = io.ErrUnexpectedEOF
 		}
 		return
